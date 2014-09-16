@@ -1,0 +1,168 @@
+<div class="wtw-barometer-widget-container">
+	<div id="animateTest" class="wtw-barometer">
+		<canvas id="barometerCanvas" class="wtw-barometer-canvas"></canvas>
+	</div>
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="lib/processing.js"></script>
+	<script type="text/javascript">
+        // global vars
+        var PI = 3.14;
+        var HALF_PI = 1.57;
+        var TWO_PI = 6.28;
+
+        // set defaults
+        var pressure = 950;
+        var pmax;
+        var pmin;
+        var punit = "jiggoWatt";
+
+        var temp = -25;
+        var tmax;
+        var tmin;
+        var tunit = "jiggoWatt";
+       
+        var $canvas = $('#barometerCanvas');
+        
+        var canvasWidth = $canvas.width();
+        if (canvasWidth > window.innerWidth)
+            canvasWidth = 1.4 * window.innerWidth;
+        var canvasHeight = $canvas.height();
+        if (canvasHeight > window.innerHeight)
+            canvasHeight = 1.4 * window.innerHeight;
+        
+        console.log("!!canvas width:"+canvasWidth+", height:"+canvasHeight);
+        var barDim = canvasWidth < canvasHeight ? canvasWidth : canvasHeight;
+
+        var barometerSketchProc = function(p) {
+            p.size(barDim * (2 / 3), barDim * (2 / 3));
+            p.draw = function() {
+                p.size(barDim * (2 / 3), barDim * (2 / 3));
+                barometerWidth = p.width;
+                p.background(0, 0);
+
+                // barometer
+                p.fill(220);
+                p.noStroke();
+                // Angles for sin() and cos() start at 3 o'clock;
+                // subtract HALF_PI to make them start at the top
+                p.ellipse(barometerWidth / 2, barometerWidth / 2, barometerWidth * 0.8, barometerWidth * 0.8);
+
+                var angle = -HALF_PI + HALF_PI / 3;
+                var inc = TWO_PI / 12;
+                p.stroke(0);
+                p.strokeWeight(barometerWidth * 0.015);
+                p.arc(barometerWidth / 2, barometerWidth / 2, barometerWidth * 0.8, barometerWidth * 0.8, -(4 / 3) * PI, PI / 3);
+
+                // we want a range from ±950 - ±1050 milibar
+                // 1-5=1010-1050, 7-12=950-1000
+                p.textSize(Math.round(barometerWidth * 0.04));
+                for (i = 1; i <= 12; i++, angle += inc) {
+                    if (i != 6) {
+                        p.line(barometerWidth / 2 + Math.cos(angle) * barometerWidth * 0.35, barometerWidth / 2 + Math.sin(angle) * barometerWidth * .35, barometerWidth / 2 + Math.cos(angle)
+                                * barometerWidth * 0.4, barometerWidth / 2 + Math.sin(angle) * barometerWidth * .4);
+                        if (i < 6) {
+                            myText = 1000 + 10 * i;
+                        } else {
+                            myText = 880 + 10 * i;
+                        }
+                        myWidth = p.textWidth(myText);
+                        p.fill(0, 102, 153);
+                        p.text(myText, Math.round(barometerWidth / 2 + Math.cos(angle) * barometerWidth * 0.3 - myWidth / 2), Math.round(barometerWidth / 2 + Math.sin(angle) * barometerWidth * 0.3));
+                    } else {
+                        myText = punit;
+                        myWidth = p.textWidth(myText);
+                        p.fill(0, 102, 153);
+                        p.text(myText, Math.round(barometerWidth / 2 + Math.cos(angle) * barometerWidth * 0.3 - myWidth / 2), Math.round(barometerWidth / 2 + Math.sin(angle) * barometerWidth * 0.3));
+                    }
+                }
+
+                //needle
+                p.stroke(60);
+                p.strokeWeight(barometerWidth * 0.015);
+                p.line(-Math.cos(pressure) * barometerWidth * 0.05 + barometerWidth / 2, -Math.sin(pressure) * barometerWidth * 0.05 + barometerWidth / 2, Math.cos(pressure) * barometerWidth * 0.35
+                        + barometerWidth / 2, Math.sin(pressure) * barometerWidth * 0.35 + barometerWidth / 2);
+                p.ellipse(barometerWidth / 2, barometerWidth / 2, barometerWidth / 20, barometerWidth / 20);
+            };
+            p.noLoop();
+        }
+
+        var canvas = document.getElementById("barometerCanvas");
+        var barometer = new Processing(canvas, barometerSketchProc);
+        
+        var socket = new io.connect();
+        socket.on('connect', function() {
+            //document.getElementById("status").innerHTML = "Connected";
+            //$('#animateTest').removeClass().addClass('fadeIn');
+        });
+
+        socket.on('pressuredata', function(data) {
+            var myData = parseFloat(data);
+            // Angles for sin() and cos() start at 3 o'clock;
+            // subtract HALF_PI to make them start at the top
+            // 30miliBar = HALF_PI
+            pressure = (myData - 1000) * (TWO_PI / 120) - HALF_PI;
+
+            if (myData > pmax)
+                pmax = myData;
+            if (myData < pmin)
+                pmin = myData;
+
+            barometer.redraw();
+        });
+
+        socket.on('tempdata', function(data) {
+            var myData = parseFloat(data);
+            // Angles for sin() and cos() start at 3 o'clock;
+            // subtract HALF_PI to make them start at the top
+            temp = myData;
+            if (myData > tmax)
+                tmax = myData;
+            if (myData < tmin)
+                tmin = myData;
+            thermometer.redraw();
+        });
+
+        socket.on('pressureconfig', function(config) {
+            try {
+                punit = config.unit;
+                pmin = config.rangeHigh;
+                pmax = config.rangeLow;
+            } catch (ex) {
+            }
+        });
+
+        socket.on('tempconfig', function(config) {
+            try {
+                tunit = config.unit;
+                tmin = config.rangeHigh;
+                tmax = config.rangeLow;
+            } catch (ex) {
+            }
+        });
+
+        /*
+         socket.on('disconnect', function() {
+         document.getElementById("status").innerHTML="Disconnected";
+         $('#animateTest').removeClass().addClass('rollOut');
+         p.exit();
+         });
+         */
+
+        window.onresize = resizeHandler;
+        function resizeHandler() {
+
+            var canvas = document.getElementById("barometerCanvas");
+
+            canvasWidth = canvas.innerWidth;
+            if (canvasWidth > window.innerHeight)
+                canvasWidth = 1.4 * window.innerHeight;
+
+            canvas.width = canvasWidth * (2 / 3);
+            canvas.height = canvasWidth * (2 / 3);
+            barometer.redraw();
+
+        }
+    </script>
+
+</div>

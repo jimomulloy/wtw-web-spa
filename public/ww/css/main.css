@@ -1,0 +1,187 @@
+/* Global reset
+   http://meyerweb.com/eric/tools/css/reset/ 
+*****************************************************************/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+/******************************************************************/
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background: #bbb9a4 url("../img/background-wood.gif") top left;
+    min-width: 100%;
+    min-height: 100%;
+
+    line-height: 1.5;
+    color: #FFF;
+    font-size: 12px;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+#js-widget,
+#wrapper {
+    height: 100%;
+}
+
+.widget-container {
+    background: #fff;
+
+    background: -moz-linear-gradient(top, #bcbcbc 0%, #ffffff 4%, #ffffff 46%, #ffffff 89%, #a5a5a5 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #bcbcbc), color-stop(4%, #ffffff), color-stop(46%, #ffffff), color-stop(89%, #ffffff), color-stop(100%, #a5a5a5)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #bcbcbc 0%, #ffffff 4%, #ffffff 46%, #ffffff 89%, #a5a5a5 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #bcbcbc 0%, #ffffff 4%, #ffffff 46%, #ffffff 89%, #a5a5a5 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #bcbcbc 0%, #ffffff 4%, #ffffff 46%, #ffffff 89%, #a5a5a5 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #bcbcbc 0%, #ffffff 4%, #ffffff 46%, #ffffff 89%, #a5a5a5 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#bcbcbc', endColorstr='#a5a5a5', GradientType=0); /* IE6-9 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e0e0e0', endColorstr='#d6d6d6', GradientType=0); /* IE6-9 */
+
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, .4);
+    box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, .4);
+
+    color: #999;
+    font-size: 12px;
+    font-weight: 200;
+
+    width: 310px;
+    height: 160px;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    padding: 10px 15px 25px;
+}
+
+.widget-container .other {
+    float: left;
+    width: 100px;
+    text-align: center;
+}
+
+.widget-container .other img {
+    margin: auto;
+}
+
+.widget-container h2 {
+    color: #000;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.widget-container h3 {
+    color: #000;
+    font-size: 60px;
+    font-weight: 700;
+    line-height: 50px;
+    float: left;
+}
+
+.widget-container ul.week {
+    clear: both;
+    margin: auto;
+    padding: 10px 0px 0px;
+    color: #000;
+}
+
+.widget-container ul.week li {
+    border-right: 1px dotted #999;
+
+    float: left;
+    padding: 10px 8px;
+    position: relative;
+    width: 45px;
+
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 15px;
+}
+
+.widget-container ul.week li:last-child {
+    border-right: none;
+}
+
+.widget-container ul.week li span {
+    font-size: 11px;
+    font-weight: 300;
+}
+
+.widget-container .zipcode {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.widget-container #zipcode {
+    border: 1px solid #999;
+    -webkit-border-radius: 6px;
+    padding: 2px;
+    width: 50px;
+    float: left;
+    display: none;
+}
+
+.widget-container .enter-zip {
+    display: block;
+    float: left;
+    margin-left: 10px;
+
+    color: #aaa;
+}
+
+.widget-container .error-message {
+    display: none;
+    width: 300px;
+    margin: 10px auto;
+}
+
+.widget-container .error-message .message {
+    font-size: 14px;
+    text-align: center;
+}
+
+.widget-container .error-message .close-error {
+    width: 34px;
+    margin: 20px auto;
+    display: block;
+}

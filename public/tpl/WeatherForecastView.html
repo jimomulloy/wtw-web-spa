@@ -1,0 +1,89 @@
+<div class="wtw-forecast-widget-container">
+
+	<div class="wtw-widget-container">
+		<div class="wtw-widget-date">
+			<span class="wtw-widget-day"><%- periodDay %></span><span
+				class="wtw-widget-time"><%- periodHour %></span>
+		</div>
+		<div class="wtw-widget-description">
+			<div class="wtw-widget-text"><%- condition.attributes.text %></div>
+
+			<div class="wtw-widget-temp-container">
+				<p class="wtw-widget-temp"><%- condition.attributes.maxTemp
+					%>&deg;C &nbsp; &nbsp;</p>
+				<p class="wtw-widget-min-temp"><%- condition.attributes.minTemp
+					%>&deg;C</p>
+			</div>
+			<div class="wtw-widget-icon">
+				<img src="<%- condition.attributes.icon %>"
+					alt="<%- condition.attributes.text %>"
+					title="<%- condition.attributes.text  %>">
+			</div>
+		</div>
+
+		<div class="wtw-widget-error-message">
+			<p class="wtw-widget-message">Error</p>
+			<a href="#" class="wtw-widget-close-error">Close</a>
+		</div>
+
+		<div class="wtw-widget-details">
+			<div class="wtw-widget-details-header"><%-
+				condition.attributes.text %> - <%- writeTimeFormatted %></div>
+			<div class="wtw-widget-details-row">
+				<div class="wtw-widget-details-column1">
+					<div class="wtw-widget-details-cell">Pressure</div>
+				</div>
+
+				<div class="wtw-widget-details-column2">
+					<div class="wtw-widget-details-cell"><%-
+						atmosphere.attributes.pressure %>&nbsp;hpa</div>
+				</div>
+			</div>
+			<div class="wtw-widget-details-row">
+				<div class="wtw-widget-details-column1">
+					<div class="wtw-widget-details-cell">Rising</div>
+				</div>
+				<div class="wtw-widget-details-column2">
+					<div class="wtw-widget-details-cell"><%-
+						atmosphere.attributes.rising %></div>
+				</div>
+			</div>
+			<div class="wtw-widget-details-row">
+				<div class="wtw-widget-details-column1">
+					<div class="wtw-widget-details-cell">Humidity</div>
+				</div>
+				<div class="wtw-widget-details-column2">
+					<div class="wtw-widget-details-cell"><%-
+						atmosphere.attributes.humidity %>&nbsp;%</div>
+				</div>
+			</div>
+			<div class="wtw-widget-details-row">
+				<div class="wtw-widget-details-column1">
+					<div class="wtw-widget-details-cell">Visibility</div>
+				</div>
+				<div class="wtw-widget-details-column2">
+					<div class="wtw-widget-details-cell"><%-
+						atmosphere.attributes.visibility %>&nbsp;m</div>
+				</div>
+			</div>
+			<div class="wtw-widget-details-row">
+				<div class="wtw-widget-details-column1">
+					<div class="wtw-widget-details-cell">Wind Speed</div>
+				</div>
+				<div class="wtw-widget-details-column2">
+					<div class="wtw-widget-details-cell"><%-
+						wind.attributes.speed %>&nbsp;mph</div>
+				</div>
+			</div>
+			<div class="wtw-widget-details-row">
+				<div class="wtw-widget-details-column1">
+					<div class="wtw-widget-details-cell">Wind Direction</div>
+				</div>
+				<div class="wtw-widget-details-column2">
+					<div class="wtw-widget-details-cell"><%-
+						wind.attributes.direction %></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

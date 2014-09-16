@@ -1,0 +1,66 @@
+<h3 class="sub-header"><%= source %></h3>
+<div class="row-fluid">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">Weather Current</h4>
+			</div>
+
+			<div class="panel-body">
+				<div class="wtw-current" id="wtw-current-container<%=source%>"></div>
+			</div>
+		</div>
+		<div id="accordionDummy<%=source%>" class="panel-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-parent="#accordion<%=source%>"
+							href="#collapseForecast<%=source%>">Weather Forecast</a>
+					</h4>
+				</div>
+
+				<div id="collapseForecast<%=source%>"
+					class="panel-collapse collapse">
+					<div class="panel-body" id="wtw-forecast-container<%=source%>"></div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-parent="#accordion<%=source%>"
+							href="#collapsePast<%=source%>">Weather Past</a>
+					</h4>
+				</div>
+
+				<div id="collapsePast<%=source%>" class="panel-collapse collapse">
+					<div class="panel-body" id="wtw-past-container<%=source%>"></div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-parent="#accordion<%=source%>"
+							href="#collapseRetro<%=source%>">Weather Retrospective</a>
+					</h4>
+				</div>
+
+				<div id="collapseRetro<%=source%>" class="panel-collapse collapse">
+					<div class="panel-body" id="wtw-retro-container<%=source%>"></div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-parent="#accordion<%=source%>"
+							href="#collapseScore<%=source%>">Weather Score</a>
+					</h4>
+				</div>
+
+				<div id="collapseScore<%=source%>" class="panel-collapse collapse">
+					<div class="panel-body" id="wtw-score-container<%=source%>"></div>
+				</div>
+			</div>
+			<div id="accordion<%=source%>"></div>
+		</div>
+	</div>
+</div>

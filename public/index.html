@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Employee Directory</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet"-->
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+<link href="css/bbc.css" rel="stylesheet">
+<link href="css/wtw.css" rel="stylesheet">
+<link href="css/styles.css" rel="stylesheet">
+<link href="lib/jquery-ui-1.11.0/jquery-ui.css" rel="stylesheet">
+<link rel="stylesheet" href="jstree/themes/default/style.css" />
+<link rel="stylesheet" href="jqtree/jqtree.css" />
+<link
+	href="http://cdn-na.infragistics.com/jquery/20141/latest/css/themes/infragistics/infragistics.theme.css"
+	rel="stylesheet" />
+<link
+	href="http://cdn-na.infragistics.com/jquery/20141/latest/css/structure/infragistics.css"
+	rel="stylesheet" />
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+<script src="http://use.edgefonts.net/source-sans-pro.js"></script>
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<!--link rel="stylesheet" href="weatherstation/animate-style.css" />
+<link rel="stylesheet" href="weatherstation/animate.css" /-->
+<style type="text/css">
+hr {
+	margin: 0 0;
+}
+
+#map_canvas_alt {
+	width: 100%;
+	height: 100%;
+	min-height: 100%;
+	display: block;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+#map_canvas {
+	width: 500px;
+	height: 400px;
+	background-color: #CCC;
+	min-height: 100%;
+	display: block;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+.well {
+	width: 100%;
+	height: 100%;
+	min-height: 100%;
+}
+
+.alert {
+	border: 1px solid rgba(229, 223, 59, 0.78);
+}
+
+#wtw_progress_overlay {
+	background-color: black;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	opacity: 0.2; /* also -moz-opacity, etc. */
+	z-index: 10;
+}
+</style>
+<!--style>
+	body{
+		font: 62.5% "Trebuchet MS", sans-serif;
+		margin: 50px;
+	}
+	.demoHeaders {
+		margin-top: 2em;
+	}
+	#dialog-link {
+		padding: .4em 1em .4em 20px;
+		text-decoration: none;
+		position: relative;
+	}
+	#dialog-link span.ui-icon {
+		margin: 0 5px 0 0;
+		position: absolute;
+		left: .2em;
+		top: 50%;
+		margin-top: -8px;
+	}
+	#icons {
+		margin: 0;
+		padding: 0;
+	}
+	#icons li {
+		margin: 2px;
+		position: relative;
+		padding: 4px 0;
+		cursor: pointer;
+		float: left;
+		list-style: none;
+	}
+	#icons span.ui-icon {
+		float: left;
+		margin: 0 4px;
+	}
+	.fakewindowcontain .ui-widget-overlay {
+		position: absolute;
+	}
+	select {
+		width: 200px;
+	}
+	</style-->
+<!--script type="text/javascript"
+	src="http://maps.google.com/maps/api/js?sensor=false"></script-->
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+</head>
+
+<body>
+
+	<!--div class="container">
+		<div class="row-fluid">
+			<div id="content" class="span12>"></div>
+		</div>
+	</div-->
+
+	<!--script src="lib/jquery-1.9.1.min.js"></script>
+	<script src="lib/jquery-ui-1.11.0/jquery-ui.min.js"></script-->
+	<script src="http://modernizr.com/downloads/modernizr-latest.js"></script>
+	<script src="lib/jquery-ui-1.11.0/external/jquery/jquery.js"></script>
+	<script src="lib/jquery-ui-1.11.0/jquery-ui.js"></script>
+	<script src="lib/underscore-min.js"></script>
+	<script src="lib/backbone-min.js"></script>
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script
+		src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<!--script src="bootstrap/js/bootstrap.js"></script-->
+	<script src="jstree/jstree.js"></script>
+	<script src="jqtree/tree.jquery.js"></script>
+	<script src="jstouch-punch/jquery.ui.touch-punch.min.js"></script>
+
+	<!-- JavaScript Library Dependencies -->
+	<!--script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script-->
+
+	<!-- Ignite UI Required Combined JavaScript Files -->
+	<script
+		src="http://cdn-na.infragistics.com/jquery/20141/latest/js/infragistics.core.js"></script>
+	<script
+		src="http://cdn-na.infragistics.com/jquery/20141/latest/js/infragistics.dv.js"></script>
+	<script
+		src="http://cdn-na.infragistics.com/jquery/20141/latest/js/infragistics.lob.js"></script>
+
+	<script src="js/app.js"></script>
+	<script src="js/views/shell.js"></script>
+	<script src="js/views/organon.js"></script>
+	<script src="js/views/mcloud.js"></script>
+	<script src="js/views/weather.js"></script>
+	<script src="js/views/weathersummary.js"></script>
+	<script src="js/views/weatherbarometer.js"></script>
+	<script src="js/views/weatherreport.js"></script>
+	<script src="js/views/weathersource.js"></script>
+	<script src="js/views/weatherrecording.js"></script>
+	<script src="js/views/weatherforecast.js"></script>
+	<script src="js/views/weatherpast.js"></script>
+	<script src="js/views/weatherscore.js"></script>
+	<script src="js/views/weather.js"></script>
+	<script src="js/views/home.js"></script>
+	<script src="js/views/contact.js"></script>
+	<script src="js/views/employeelist.js"></script>
+	<script src="js/views/employeedetails.js"></script>
+
+	<script src="js/models/wtwmodel.js"></script>
+	<!-- SELECT ONE (AND ONLY ONE) OF THE DATA PERSISTENCE SOLUTIONS BELOW -->
+
+	<!-- Uncomment the script below to access the application data using an in-memory data store -->
+	<script src="js/models/model-in-memory.js"></script>
+
+	<!-- Uncomment the script below to access the application data using RESTful services. Open model-rest.js and adjust the URL attributes to reflect your URL endpoints. -->
+	<!--<script src="js/models/model-rest.js"></script>-->
+
+	<!-- Uncomment the script below to access the application data using RESTful services with JSONP. Open model-rest.js and adjust the URL attributes to reflect your REST endpoints. -->
+	<!--<script src="js/models/model-rest-jsonp.js"></script>-->
+
+	<script type="text/javascript">
+        var GoSquared = {};
+        GoSquared.acct = "GSN-287476-A";
+        (function(w) {
+            function gs() {
+                w._gstc_lt = +new Date;
+                var d = document, g = d.createElement("script");
+                g.type = "text/javascript";
+                g.src = "//d1l6p2sc9645hc.cloudfront.net/tracker.js";
+                var s = d.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(g, s);
+            }
+            w.addEventListener ? w.addEventListener("load", gs, false) : w.attachEvent("onload", gs);
+        })(window);
+    </script>
+	<script type="text/javascript">
+        var _gauges = _gauges || [];
+        (function() {
+            var t = document.createElement('script');
+            t.type = 'text/javascript';
+            t.async = true;
+            t.id = 'gauges-tracker';
+            t.setAttribute('data-site-id', '510e99ccf5a1f50f85000093');
+            t.src = '//secure.gaug.es/track.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(t, s);
+        })();
+    </script>
+	<script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push([ '_setAccount', 'UA-38207510-1' ]);
+        _gaq.push([ '_trackPageview' ]);
+
+        (function() {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+	<script type="text/javascript">
+        function toggle_visibility(id) {
+            var e = document.getElementById(id);
+            if (e.style.display != 'none' || e.style.display == 'block')
+                e.style.display = 'none';
+            else
+                e.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
