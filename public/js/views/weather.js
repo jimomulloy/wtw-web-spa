@@ -173,12 +173,14 @@ wtw.WeatherView = Backbone.View.extend({
 
         google.maps.event.addListener(this.googleMap, 'idle', function(event) {
             var thisGoogleMap = _thisView.googleMap;
-            _thisView.model.set("swlatitude", thisGoogleMap.getBounds().Ca.k);
-            _thisView.model.set("swlongitude", thisGoogleMap.getBounds().ta.j);
-            _thisView.model.set("nelatitude", thisGoogleMap.getBounds().Ca.j);
-            _thisView.model.set("nelongitude", thisGoogleMap.getBounds().ta.k);
+            var NE = thisGoogleMap.getBounds().getNorthEast();
+            var SW = thisGoogleMap.getBounds().getSouthWest();
+            _thisView.model.set("swlatitude", SW.lat());
+            _thisView.model.set("swlongitude", SW.lng());
+            _thisView.model.set("nelatitude", NE.lat());
+            _thisView.model.set("nelongitude", NE.lng());
             _thisView.clearMarkRegions();
-            if ((thisGoogleMap.getBounds().Ca.j - thisGoogleMap.getBounds().Ca.k) < 4.0) {
+            if ((NE.lat() - SW.lat()) < 4.0) {
                 _thisView.getRegions();
             }
         });
@@ -272,6 +274,7 @@ wtw.WeatherView = Backbone.View.extend({
         var _thisModel = this.model;
         console.log("!!getActiveRegions:");
         var thisUrl = 'http://localhost:4000/api/activeRegions';
+        //var thisUrl = 'http://ec2-54-72-213-202.eu-west-1.compute.amazonaws.com:4000/api/activeRegions';
         $.ajax({
             type : "GET",
             url : thisUrl,
@@ -300,6 +303,8 @@ wtw.WeatherView = Backbone.View.extend({
         console.log("!!getRegions:");
         var thisUrl = 'http://localhost:4000/api/regions' + '/swlat/' + this.model.get("swlatitude") + '/swlong/' + this.model.get("swlongitude") + '/nelat/' + this.model.get("nelatitude")
                 + '/nelong/' + this.model.get("nelongitude");
+        //var thisUrl = 'http://ec2-54-72-213-202.eu-west-1.compute.amazonaws.com:4000/api/regions' + '/swlat/' + this.model.get("swlatitude") + '/swlong/' + this.model.get("swlongitude") + '/nelat/' + this.model.get("nelatitude")
+        //        + '/nelong/' + this.model.get("nelongitude");
         console.log("!!getRegions:" + thisUrl);
         $.ajax({
             type : "GET",

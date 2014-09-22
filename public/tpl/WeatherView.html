@@ -1,7 +1,18 @@
 <div class="panel panel-default"
 	style="margin-left: 15px; margin-right: 15px; margin-top: 15px; margin-bottom: 15px">
 	<div class="panel-heading">
-		<h3 class="panel-title">Whatever The Weather</h3>
+		<h3 class="panel-title">
+			Whatever The Weather <span class="pull-right"><i
+				class="glyphicon glyphicon-fullscreen" data-toggle="tooltip"
+				data-placement="left" title="Show Full Screen"></i>&nbsp; <i
+				class="glyphicon glyphicon-pushpin" data-toggle="tooltip"
+				data-placement="left" title="Show options"></i>&nbsp; <i
+				class="glyphicon glyphicon-info-sign" data-container="body"
+				data-toggle="popover" data-placement="bottom" title="Information"
+				data-content="This is a very useful information. But I do not know what to write here.">
+			</i>&nbsp; <i class=" glyphicon glyphicon-retweet" data-toggle="tooltip"
+				data-placement="left" title="Toggle Chart"></i>&nbsp; </span>
+		</h3>
 	</div>
 	<div class="panel-body">
 		<div class="row-fluid">
@@ -15,6 +26,8 @@
 										class="btn btn-primary btn-lg">Get Weather</button>
 									<button type="button" value="Get My Location" id="geolocate"
 										class="btn btn-primary btn-lg">My Location</button>
+									<button type="button" value="hide" id="mapbutton"
+										class="btn btn-primary btn-lg">Show Map &nbsp;</button>
 								</p>
 								<table>
 									<tr>
@@ -46,11 +59,14 @@
 						</div>
 						<div class="row-fluid">
 							<div class="col-md-6" id="wtw-summary-container"></div>
-							<div class="col-md-6" id="wtw-barometer-container"></div>
+							<!--div class="col-md-6" id="wtw-barometer-container"></div-->
 						</div>
 					</div>
 					<div class="col-md-6">
-						<div class="wtw-widget-container" id="map_canvas"></div>
+						<div id="wtw-barometer-container"></div>
+						<div id="wtw-map-overlay" style="display: none">
+							<div id="map_canvas"></div>
+						</div>
 					</div>
 				</div>
 				<div class="row-fluid">
@@ -61,4 +77,33 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+        $('.glyphicon-pushpin').click(function() {
+            if (wtw.weatherView) {
+                if ($('#wtw-map-overlay').is(":visible")) {
+                    console.log("!!HIDE");
+                    $('#wtw-map-overlay').hide();
+                    $('#mapbutton').html('Show Map');
+                } else {
+                    console.log("!!SHOW");
+                    $('#wtw-map-overlay').show();
+                    $('#mapbutton').html('Hide Map');
+                    wtw.weatherView.googleMapsInitialize();
+                }
+            }
+        });
+
+        $('#mapbutton').click(function() {
+            if (wtw.weatherView) {
+                if ($('#wtw-map-overlay').is(":visible")) {
+                    $('#wtw-map-overlay').hide();
+                    $('#mapbutton').html('Show Map');
+                } else {
+                    $('#wtw-map-overlay').show();
+                    $('#mapbutton').html('Hide Map');
+                    wtw.weatherView.googleMapsInitialize();
+                }
+            }
+        });
+    </script>
 </div>
