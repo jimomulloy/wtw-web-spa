@@ -11,7 +11,7 @@
 
 directory.Employee = Backbone.Model.extend({
 
-    urlRoot:"http://localhost:3000/employees",
+    urlRoot:"http://www.jimomulloy.co.uk:4000/employees",
 //    urlRoot:"/directory-rest-php/employees",
 
     initialize:function () {
