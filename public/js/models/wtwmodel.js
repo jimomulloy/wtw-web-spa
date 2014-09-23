@@ -1,7 +1,8 @@
 wtw.WeatherReport = Backbone.Model.extend({
 
     //urlRoot : 'http://ec2-54-72-213-202.eu-west-1.compute.amazonaws.com:4000/api/report',
-    urlRoot : 'http://www.jimomulloy.co.uk:4000/api/report',
+    //urlRoot : 'http://www.jimomulloy.co.uk:4000/api/report',
+    urlRoot : 'unkown',
 
     getWeatherRecordings : function(source) {
         console.log("!!getWeatherRecordings for source:" + source);
@@ -32,6 +33,7 @@ wtw.WeatherReport = Backbone.Model.extend({
     },
 
     initialize : function() {
+        this.urlRoot = 'http://' + wtw.ConfigHandler.getValue('wtw_url')+'/api/report';
     },
 
     defaults : {

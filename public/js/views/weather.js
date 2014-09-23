@@ -273,7 +273,7 @@ wtw.WeatherView = Backbone.View.extend({
         var _thisView = this;
         var _thisModel = this.model;
         console.log("!!getActiveRegions:");
-        var thisUrl = 'http://www.jimomulloy.co.uk:4000/api/activeRegions';
+        var thisUrl = 'http://' + wtw.ConfigHandler.getValue('wtw_url')+'/api/activeRegions';
         //var thisUrl = 'http://ec2-54-72-213-202.eu-west-1.compute.amazonaws.com:4000/api/activeRegions';
         $.ajax({
             type : "GET",
@@ -301,7 +301,7 @@ wtw.WeatherView = Backbone.View.extend({
         var _thisView = this;
         var _thisModel = this.model;
         console.log("!!getRegions:");
-        var thisUrl = 'http://www.jimomulloy.co.uk:4000/api/regions' + '/swlat/' + this.model.get("swlatitude") + '/swlong/' + this.model.get("swlongitude") + '/nelat/' + this.model.get("nelatitude")
+        var thisUrl = 'http://' + wtw.ConfigHandler.getValue('wtw_url')+'/api/regions' + '/swlat/' + this.model.get("swlatitude") + '/swlong/' + this.model.get("swlongitude") + '/nelat/' + this.model.get("nelatitude")
                 + '/nelong/' + this.model.get("nelongitude");
         //var thisUrl = 'http://ec2-54-72-213-202.eu-west-1.compute.amazonaws.com:4000/api/regions' + '/swlat/' + this.model.get("swlatitude") + '/swlong/' + this.model.get("swlongitude") + '/nelat/' + this.model.get("nelatitude")
         //        + '/nelong/' + this.model.get("nelongitude");

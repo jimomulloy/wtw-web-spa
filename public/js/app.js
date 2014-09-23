@@ -34,6 +34,40 @@ var wtw = {
 
 };
 
+wtw.Config = {
+    Local : {
+        wtw_url : 'localhost:4000'
+    },
+    Dev : {
+        wtw_url : 'localhost:4000'
+    },
+    Production : {
+        wtw_url : 'www.jimomulloy.co.uk:4000'
+    }
+}
+
+wtw.ConfigHandler = {
+    getValue : function(key) {
+        var env;
+        switch (window.location.hostname) {
+        case "localhost":
+        case "127.0.0.1":
+            env = 'Dev';
+            break;
+        case "dev.yourdomain.com":
+            env = 'Dev';
+            break;
+        case "www.jimomulloy.co.uk":
+            env = 'Production';
+            break;
+        default:
+            throw ('Unknown environment: ' + window.location.hostname);
+        }
+        console.log("Get Config from env:"+env);
+        return wtw.Config[env][key];
+    }
+};
+
 wtw.Router = Backbone.Router.extend({
 
     routes : {
@@ -84,8 +118,8 @@ wtw.Router = Backbone.Router.extend({
             this.$content.html(wtw.homeView.el);
         } else {
             wtw.homeView.delegateEvents(); // delegate events when the view is
-                                            // recycled 
-            this.$content.html(wtw.homeView.el);   
+            // recycled 
+            this.$content.html(wtw.homeView.el);
         }
         wtw.shellView.selectMenuItem('home-menu');
     },
@@ -97,8 +131,8 @@ wtw.Router = Backbone.Router.extend({
             this.$content.html(wtw.contactView.el);
         } else {
             wtw.contactView.delegateEvents(); // delegate events when the view is
-                                            // recycled 
-            this.$content.html(wtw.contactView.el);   
+            // recycled 
+            this.$content.html(wtw.contactView.el);
         }
         wtw.shellView.selectMenuItem('contact-menu');
     },
@@ -111,7 +145,7 @@ wtw.Router = Backbone.Router.extend({
             wtw.organonView.configScreen();
         } else {
             wtw.organonView.delegateEvents(); // delegate events when the view is
-                                            // recycled
+            // recycled
             this.$content.html(wtw.organonView.el);
         }
         wtw.shellView.selectMenuItem('organon-menu');
@@ -124,12 +158,12 @@ wtw.Router = Backbone.Router.extend({
             this.$content.html(wtw.mcloudView.el);
         } else {
             wtw.organonView.delegateEvents(); // delegate events when the view is
-                                            // recycled
+            // recycled
             this.$content.html(wtw.mcloudView.el);
         }
         wtw.shellView.selectMenuItem('mcloud-menu');
     },
-    
+
     employeeDetails : function(id) {
         var employee = new wtw.Employee({
             id : id
@@ -151,13 +185,13 @@ wtw.Router = Backbone.Router.extend({
 
 });
 
-$(document).on("ready", function() {
-    wtw.loadTemplates(["WeatherView", "WeatherReportView", "WeatherSourceView", "WeatherRecordingView", "WeatherPastView",
-                       "WeatherForecastView", "WeatherScoreView", "WeatherSummaryView", "WeatherBarometerView",
-                       "HomeView", "ContactView", "ShellView", "EmployeeView", "EmployeeSummaryView", 
-                       "EmployeeListItemView", "OrganonView", "McloudView" ], function() {
-        wtw.router = new wtw.Router();
-        Backbone.history.start();
-        wtw.shellView.selectMenuItem('home-menu');
-    });
-});
+$(document).on(
+        "ready",
+        function() {
+            wtw.loadTemplates([ "WeatherView", "WeatherReportView", "WeatherSourceView", "WeatherRecordingView", "WeatherPastView", "WeatherForecastView", "WeatherScoreView", "WeatherSummaryView",
+                    "WeatherBarometerView", "HomeView", "ContactView", "ShellView", "EmployeeView", "EmployeeSummaryView", "EmployeeListItemView", "OrganonView", "McloudView" ], function() {
+                wtw.router = new wtw.Router();
+                Backbone.history.start();
+                wtw.shellView.selectMenuItem('home-menu');
+            });
+        });
