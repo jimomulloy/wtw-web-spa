@@ -11,8 +11,6 @@ wtw.WeatherView = Backbone.View.extend({
     reportView : {},
 
     render : function() {
-        // var data = _.clone(this.model.attributes);
-        // data.id = this.model.id;
         this.$el.html(this.template(this.model.toJSON()));
         if (this.model.get("region") != 0) {
             this.reportView = new wtw.WeatherReportView({
@@ -54,11 +52,6 @@ wtw.WeatherView = Backbone.View.extend({
         return this;
     },
 
-    // report : function(event) {
-    // app.navigate("wtw/report", true);
-    // return false;
-    // },
-
     events : {
         "change input" : "change",
         "click #submit" : "report",
@@ -75,7 +68,6 @@ wtw.WeatherView = Backbone.View.extend({
     },
 
     updateModel : function() {
-        // this.render();
         if (this.model.get("region") != 0) {
             this.reportView = new wtw.WeatherReportView({
                 model : this.model
@@ -119,7 +111,6 @@ wtw.WeatherView = Backbone.View.extend({
     // company.listenTo(company.model, "change", company.render);
 
     report : function() {
-        console.log('report:' + this.googleMap);
         var _thisView = this;
         this.model.set({
             latitude : $('#latitude').val(),
@@ -311,12 +302,10 @@ wtw.WeatherView = Backbone.View.extend({
     getRegions : function() {
         var _thisView = this;
         var _thisModel = this.model;
-        console.log("!!getRegions:");
         var thisUrl = 'http://' + wtw.ConfigHandler.getValue('wtw_url')+'/api/regions' + '/swlat/' + this.model.get("swlatitude") + '/swlong/' + this.model.get("swlongitude") + '/nelat/' + this.model.get("nelatitude")
                 + '/nelong/' + this.model.get("nelongitude");
         //var thisUrl = 'http://ec2-54-72-213-202.eu-west-1.compute.amazonaws.com:4000/api/regions' + '/swlat/' + this.model.get("swlatitude") + '/swlong/' + this.model.get("swlongitude") + '/nelat/' + this.model.get("nelatitude")
         //        + '/nelong/' + this.model.get("nelongitude");
-        console.log("!!getRegions:" + thisUrl);
         $.ajax({
             type : "GET",
             url : thisUrl,
