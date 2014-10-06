@@ -168,7 +168,7 @@ wtw.WeatherView = Backbone.View.extend({
             $('#longitude').val(lon);
             var location = event.latLng;
             thisGoogleMap.setCenter(location);
-            //_thisView.report();
+            _thisView.report();
         });
 
         google.maps.event.addListener(this.googleMap, 'idle', function(event) {
@@ -263,7 +263,7 @@ wtw.WeatherView = Backbone.View.extend({
                 $('#longitude').val(lon);
                 var location = event.latLng;
                 thisGoogleMap.setCenter(location);
-                //_thisView.report();
+                _thisView.report();
             });
 
             _thisView.regionCircles.push(circle);
@@ -386,7 +386,7 @@ wtw.WeatherView = Backbone.View.extend({
                 if(!$.isEmptyObject(wtw.gmap)){
                     wtw.gmap.setCenter(location);
                 }
-                //_thisView.report();
+                _thisView.report();
             }, "jsonp");
         }
     },
@@ -402,7 +402,7 @@ wtw.WeatherView = Backbone.View.extend({
         if(!$.isEmptyObject(wtw.gmap)){
             wtw.gmap.setCenter(location);
         }
-        //wtw.weatherView.report();
+        wtw.weatherView.report();
     },
 
     geoError : function(error) {
