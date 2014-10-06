@@ -88,7 +88,10 @@ body {
 	#splitter {
 		font-size: 16px;
 	}
+	
 }
+
+.google-map-canvas,.google-map-canvas * { box-sizing:content-box; }
 
 #main-container {
 	height: 100%;

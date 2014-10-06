@@ -34,7 +34,7 @@ wtw.WeatherSourceView = Backbone.View.extend({
         var cond = currentWeather.get("condition");
         this.childCurrentView.delegateEvents;
 
-        for (var i = 0; i < forecasts.length; i++) {
+        for (var i = forecasts.length-1; i >= 0; i--) {
             if (forecasts[i].get("writeTime") > yesterday) {
                 this.childForecastViews[i] = new wtw.WeatherForecastView({
                     model : forecasts[i]

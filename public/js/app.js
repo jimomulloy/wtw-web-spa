@@ -101,7 +101,7 @@ wtw.Router = Backbone.Router.extend({
             });
             wtw.weatherView.render();
             this.$content.html(wtw.weatherView.el);
-            //wtw.weatherView.googleMapsInitialize();
+            wtw.weatherView.geolocate();
         } else {
             wtw.weatherView.delegateEvents();
             this.$content.html(wtw.weatherView.el);

@@ -1,11 +1,14 @@
 wtw.WeatherBarometerView = Backbone.View.extend({
     
     initialize : function() {
-        //this.model.on("change", this.updateModel, this);
+        // this.model.on("change", this.updateModel, this);
     },
 
     render : function() {
         this.$el.html(this.template(this.model.toJSON()));
+        console.log("!set pressure:"+this.model.get("pressure"));
+        console.log("!set pressure model :"+JSON.stringify(this.model));
+        this.setPressure(this.model.get("pressure"));
         return this;
     },
 
@@ -35,5 +38,19 @@ wtw.WeatherBarometerView = Backbone.View.extend({
       $(".wtw-current-error-message").toggle();
       $(".wtw-current-widget-display").toggle();
     },
+    
+    setPressure: function(myData){;
+        // Angles for sin() and cos() start at 3 o'clock;
+        // subtract HALF_PI to make them start at the top
+        // 30miliBar = HALF_PI
+        pressure = (myData - 1000) * (TWO_PI / 120) - HALF_PI;
+
+        if (myData > pmax)
+            pmax = myData;
+        if (myData < pmin)
+            pmin = myData;
+
+        barometer.redraw();
+    }
 
 });

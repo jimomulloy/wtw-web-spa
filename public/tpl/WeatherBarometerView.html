@@ -34,7 +34,6 @@
         var barDim = canvasWidth < canvasHeight ? canvasWidth : canvasHeight;
 
         var barometerSketchProc = function(p) {
-            console.log("!!barDim:"+barDim);
             p.size(barDim * (2 / 3), barDim * (2 / 3));
             p.draw = function() {
                 p.size(barDim * (2 / 3), barDim * (2 / 3));
@@ -89,9 +88,7 @@
 
         var canvas = document.getElementById("barometerCanvas");
         var barometer = new Processing(canvas, barometerSketchProc);
-        
-        
-        
+       
         /*var socket = new io.connect();
         socket.on('connect', function() {
             //document.getElementById("status").innerHTML = "Connected";

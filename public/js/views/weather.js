@@ -28,6 +28,9 @@ wtw.WeatherView = Backbone.View.extend({
                 recordings = this.model.getWeatherRecordings(sources[i]);
                 if (recordings.length > 0) {
                     currentWeather = recordings[0];
+                    if (sources[i] == 'google') {
+                        break;
+                    }
                 }
             }
             if (currentWeather != undefined) {
@@ -41,7 +44,7 @@ wtw.WeatherView = Backbone.View.extend({
                 this.summaryView.delegateEvents();
 
                 this.barometerView = new wtw.WeatherBarometerView({
-                    model : currentWeather
+                    model : currentWeather.get("atmosphere")
                 });
                 this.barometerView.$el = this.$('#wtw-barometer-container');
                 this.barometerView.render();
@@ -88,6 +91,9 @@ wtw.WeatherView = Backbone.View.extend({
                 recordings = this.model.getWeatherRecordings(sources[i]);
                 if (recordings.length > 0) {
                     currentWeather = recordings[0];
+                    if (sources[i] == 'google') {
+                        break;
+                    }
                 }
             }
             if (currentWeather != undefined) {
@@ -99,7 +105,7 @@ wtw.WeatherView = Backbone.View.extend({
                 this.summaryView.delegateEvents();
 
                 this.barometerView = new wtw.WeatherBarometerView({
-                    model : currentWeather
+                    model : currentWeather.get("atmosphere")
                 });
                 this.barometerView.$el = this.$('#wtw-barometer-container');
                 this.barometerView.render();
@@ -140,10 +146,10 @@ wtw.WeatherView = Backbone.View.extend({
         return false;
     },
 
-    googleMap : {},
+    googleMap : undefined,
 
     marker : undefined,
-
+        
     googleMapsInitialize : function() {
         var _thisView = this;
         var latLng = new google.maps.LatLng(51.4667, -0.4545);
@@ -165,10 +171,13 @@ wtw.WeatherView = Backbone.View.extend({
 
         google.maps.event.addListener(this.googleMap, 'click', function(event) {
             var thisGoogleMap = _thisView.googleMap;
-            $('#latitude').val(event.latLng.lat());
-            $('#longitude').val(event.latLng.lng());
+            var lat = parseFloat(event.latLng.lat()).toFixed(4);
+            var lon = parseFloat(event.latLng.lng()).toFixed(4);
+            $('#latitude').val(lat);
+            $('#longitude').val(lon);
             var location = event.latLng;
             thisGoogleMap.setCenter(location);
+            _thisView.report();
         });
 
         google.maps.event.addListener(this.googleMap, 'idle', function(event) {
@@ -214,7 +223,7 @@ wtw.WeatherView = Backbone.View.extend({
     markRegions : function() {
         var _thisView = this;
         var _thisModel = this.model;
-        var regions = _thisModel.get("regions");
+        var regions = _thisModel.get("regions");this.model.get("pressure")
         var activeRegions = _thisModel.get("activeRegions");
 
         _thisView.clearMarkRegions();
@@ -257,10 +266,13 @@ wtw.WeatherView = Backbone.View.extend({
 
             google.maps.event.addListener(circle, 'click', function(event) {
                 var thisGoogleMap = _thisView.googleMap;
-                $('#latitude').val(event.latLng.lat());
-                $('#longitude').val(event.latLng.lng());
+                var lat = parseFloat(event.latLng.lat()).toFixed(4);
+                var lon = parseFloat(event.latLng.lng()).toFixed(4);
+                $('#latitude').val(lat);
+                $('#longitude').val(lon);
                 var location = event.latLng;
                 thisGoogleMap.setCenter(location);
+                _thisView.report();
             });
 
             _thisView.regionCircles.push(circle);
@@ -272,7 +284,6 @@ wtw.WeatherView = Backbone.View.extend({
     getActiveRegions : function() {
         var _thisView = this;
         var _thisModel = this.model;
-        console.log("!!getActiveRegions:");
         var thisUrl = 'http://' + wtw.ConfigHandler.getValue('wtw_url')+'/api/activeRegions';
         //var thisUrl = 'http://ec2-54-72-213-202.eu-west-1.compute.amazonaws.com:4000/api/activeRegions';
         $.ajax({
@@ -370,21 +381,39 @@ wtw.WeatherView = Backbone.View.extend({
     },
 
     geolocate : function() {
+        var _thisView = this;
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(this.geoSuccess, this.geoError);
         } else {
-            alert("Browser does not support geolocation");
+            $.get("http://ipinfo.io", function(response) {
+                var latLon = response.loc.split(',');
+                var lat = parseFloat(latLon[0]).toFixed(4);
+                var lon = parseFloat(latLon[1]).toFixed(4);
+                $('#latitude').val(lat);
+                $('#longitude').val(lon);
+                var latLng = new google.maps.LatLng(lat, lon);
+                // this.mapPlaceMarker(latLng);
+                var location = latLng;
+                if(!$.isEmptyObject(wtw.gmap)){
+                    wtw.gmap.setCenter(location);
+                }
+                _thisView.report();
+            }, "jsonp");
         }
     },
 
     geoSuccess : function(position) {
-        $('#latitude').val(position.coords.latitude);
-        $('#longitude').val(position.coords.longitude);
-        var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        var lat = parseFloat(position.coords.latitude).toFixed(4);
+        var lon = parseFloat(position.coords.longitude).toFixed(4);
+        $('#latitude').val(lat);
+        $('#longitude').val(lon);
+        var latLng = new google.maps.LatLng(lat,lon);
         // this.mapPlaceMarker(latLng);
         var location = latLng;
-
-        wtw.gmap.setCenter(location);
+        if(!$.isEmptyObject(wtw.gmap)){
+            wtw.gmap.setCenter(location);
+        }
+        wtw.weatherView.report();
     },
 
     geoError : function(error) {
