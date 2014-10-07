@@ -168,7 +168,6 @@ wtw.WeatherView = Backbone.View.extend({
             $('#longitude').val(lon);
             var location = event.latLng;
             thisGoogleMap.setCenter(location);
-            _thisView.report();
         });
 
         google.maps.event.addListener(this.googleMap, 'idle', function(event) {
@@ -263,7 +262,6 @@ wtw.WeatherView = Backbone.View.extend({
                 $('#longitude').val(lon);
                 var location = event.latLng;
                 thisGoogleMap.setCenter(location);
-                _thisView.report();
             });
 
             _thisView.regionCircles.push(circle);
@@ -371,9 +369,9 @@ wtw.WeatherView = Backbone.View.extend({
 
     geolocate : function() {
         var _thisView = this;
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(this.geoSuccess, this.geoError);
-        } else {
+        //if (navigator.geolocation) {
+        //    navigator.geolocation.getCurrentPosition(this.geoSuccess, this.geoError);
+        //} else {
             $.get("http://ipinfo.io", function(response) {
                 var latLon = response.loc.split(',');
                 var lat = parseFloat(latLon[0]).toFixed(4);
@@ -388,7 +386,7 @@ wtw.WeatherView = Backbone.View.extend({
                 }
                 _thisView.report();
             }, "jsonp");
-        }
+        //}
     },
 
     geoSuccess : function(position) {
