@@ -192,6 +192,6 @@ $(document).on(
                     "WeatherBarometerView", "HomeView", "ContactView", "ShellView", "EmployeeView", "EmployeeSummaryView", "EmployeeListItemView", "OrganonView", "McloudView" ], function() {
                 wtw.router = new wtw.Router();
                 Backbone.history.start();
-                wtw.shellView.selectMenuItem('weather-menu');
+                wtw.shellView.selectMenuItem('home-menu');
             });
         });
